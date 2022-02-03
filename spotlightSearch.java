@@ -15,14 +15,13 @@ import java.awt.event.KeyEvent;
 // Will dynamically return temporary array of textfields for each returned dir
 // On user selection of an index of these strings, this will be stored 
 // ...as the search query.
-// Program will execute xdg-open <~dir/FILE>
+// Program will execute xdg-open </dir/selection>
 
 public class spotlightSearch extends JFrame 
 {
   static String chosenQuery;
 
   JTextField[] results;
-
   static JPanel centerPanel;
   static Box vBox;
 
@@ -33,8 +32,10 @@ public class spotlightSearch extends JFrame
     this.setLocationRelativeTo(null);
     this.setResizable(true);
 
+//  Caps total # of results at 200 
     results = new JTextField[200];
     JTextField searchBox = new JTextField();
+
     searchBox.setText("");
     searchBox.setPreferredSize(new Dimension(500, 30));
     searchBox.setEditable(true);
@@ -50,7 +51,7 @@ public class spotlightSearch extends JFrame
         try 
         {
           
-          ProcessBuilder builder = new ProcessBuilder("fdfind", searchBox.getText());
+          ProcessBuilder builder = new ProcessBuilder("fdfind", searchBox.getText(), "/");
           builder.inheritIO().redirectOutput(ProcessBuilder.Redirect.PIPE);
           
           Process p;
@@ -69,7 +70,9 @@ public class spotlightSearch extends JFrame
                  vBox.add(results[count]);
                  pack();
             }
-          } catch (Exception e1) {
+          } catch (Exception e1) 
+          {
+            System.out.println("[1] Sorry something went wrong. ");
             e1.printStackTrace();
           }
 
@@ -77,13 +80,14 @@ public class spotlightSearch extends JFrame
 
         } catch (Exception e2) 
           {
+            System.out.println("[2] Sorry something went wrong. ");
             e2.printStackTrace();
           }
       }
 
     });
 
-//  Otherwise if nothing is input, initializes all components prior to scaling
+//  Otherwise if nothing is input, initializes all components prior to any scaling
     vBox = Box.createVerticalBox();
     centerPanel = new JPanel();
 
@@ -92,10 +96,24 @@ public class spotlightSearch extends JFrame
     contentPanel.add(searchBox, "South");
     contentPanel.add(centerPanel, "Center");
     centerPanel.add(vBox);
+
     pack();
 
 //  Keep last 
     this.setVisible(true);
+  }
+
+// Provided user clicks a returned result, will open directory of their selection
+  public static void openDirectory(String selectedResult) 
+  {
+    try 
+    {
+      Process p = Runtime.getRuntime().exec(new String[] { "xdg-open", selectedResult });
+    } catch (IOException e2) 
+      {
+        System.out.println("Error executing command. Please try restarting. ");
+        e2.printStackTrace();
+      }
   }
 
   public static void main(String[] args) 
@@ -103,15 +121,9 @@ public class spotlightSearch extends JFrame
       new spotlightSearch();
   } 
 
-  public static void openDirectory(String selectedResult) 
-  {
-    try 
-    {
-      Process p = Runtime.getRuntime().exec(new String[] { "xdg-open", selectedResult });
-    } catch (IOException e2) {
-      System.out.println("Error executing command. Please try restarting. ");
-      e2.printStackTrace();
-    }
-  }
-
 }
+
+/*
+  <todo> make window scrollable
+  <todo> maybe make case insensitive   
+*/ 
