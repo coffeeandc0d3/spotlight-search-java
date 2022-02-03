@@ -39,7 +39,7 @@ public class spotlightSearch extends JFrame
     searchBox.setText("");
     searchBox.setPreferredSize(new Dimension(700, 30));
     searchBox.setEditable(true);
-    searchBox.setVisible(true);
+//  searchBox.setVisible(true);
 
     // Init vertical box layout scaling
     searchBox.addActionListener(new ActionListener() 
@@ -93,7 +93,7 @@ public class spotlightSearch extends JFrame
 
     JPanel contentPanel = (JPanel) getContentPane();
     contentPanel.setLayout(new BorderLayout());
-    contentPanel.add(searchBox, "North");
+    contentPanel.add(searchBox, "South");
     contentPanel.add(centerPanel, "Center");
     centerPanel.add(vBox);
 
@@ -129,15 +129,3 @@ public class spotlightSearch extends JFrame
   } 
 
 }
-
-/*
-concurrency/EDT for GUI updates to not freeze
-Add your panels before f1.setVisible(True) on frame and f1.pack() the frame after it.
-
-You don't need to set a fixed size for your frame. Your added components should take care of it.
-
-To set your components, look at MigLayout. It's easy to use and set components the way you need it.
-
-  <todo> make window scrollable
-  <todo> maybe make case insensitive   
-*/ 
