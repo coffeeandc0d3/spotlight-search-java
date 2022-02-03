@@ -23,7 +23,7 @@ public class spotlightSearch extends JFrame
 
   JTextField[] results;
   static JPanel centerPanel;
-  static Box vBox;
+  static Box vBox; 
 
   public spotlightSearch() 
   {
@@ -37,7 +37,7 @@ public class spotlightSearch extends JFrame
     JTextField searchBox = new JTextField();
 
     searchBox.setText("");
-    searchBox.setPreferredSize(new Dimension(500, 30));
+    searchBox.setPreferredSize(new Dimension(700, 30));
     searchBox.setEditable(true);
     searchBox.setVisible(true);
 
@@ -46,7 +46,7 @@ public class spotlightSearch extends JFrame
     {
 
       public void actionPerformed(ActionEvent e) 
-      {
+      { 
         // Execute fdfind with text in searchBox:
         try 
         {
@@ -93,15 +93,15 @@ public class spotlightSearch extends JFrame
 
     JPanel contentPanel = (JPanel) getContentPane();
     contentPanel.setLayout(new BorderLayout());
-    contentPanel.add(searchBox, "South");
+    contentPanel.add(searchBox, "North");
     contentPanel.add(centerPanel, "Center");
     centerPanel.add(vBox);
 
     pack();
 
 //  Keep last 
-    this.setVisible(true);
-  }
+//  this.setVisible(true);
+  } 
 
 // Provided user clicks a returned result, will open directory of their selection
   public static void openDirectory(String selectedResult) 
@@ -117,13 +117,27 @@ public class spotlightSearch extends JFrame
   }
 
   public static void main(String[] args) 
-  {
-      new spotlightSearch();
+  {   
+    SwingUtilities.invokeLater(new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            new spotlightSearch().setVisible(true);
+        }
+    });
   } 
 
 }
 
 /*
+concurrency/EDT for GUI updates to not freeze
+Add your panels before f1.setVisible(True) on frame and f1.pack() the frame after it.
+
+You don't need to set a fixed size for your frame. Your added components should take care of it.
+
+To set your components, look at MigLayout. It's easy to use and set components the way you need it.
+
   <todo> make window scrollable
   <todo> maybe make case insensitive   
 */ 
