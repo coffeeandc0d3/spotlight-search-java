@@ -41,6 +41,18 @@ public class spotlightSearch extends JFrame
     searchBox.setEditable(true);
 //  searchBox.setVisible(true);
 
+//  Otherwise if nothing is input, initializes all components prior to any scaling
+    vBox = Box.createVerticalBox();
+    centerPanel = new JPanel();
+
+    JPanel contentPanel = (JPanel) getContentPane();
+    contentPanel.setLayout(new BorderLayout());
+    contentPanel.add(searchBox, "South");
+    contentPanel.add(centerPanel, "Center");
+    centerPanel.add(vBox);
+
+    pack();
+    
     // Init vertical box layout scaling
     searchBox.addActionListener(new ActionListener() 
     {
@@ -87,21 +99,7 @@ public class spotlightSearch extends JFrame
 
     });
 
-//  Otherwise if nothing is input, initializes all components prior to any scaling
-    vBox = Box.createVerticalBox();
-    centerPanel = new JPanel();
-
-    JPanel contentPanel = (JPanel) getContentPane();
-    contentPanel.setLayout(new BorderLayout());
-    contentPanel.add(searchBox, "South");
-    contentPanel.add(centerPanel, "Center");
-    centerPanel.add(vBox);
-
-    pack();
-
-//  Keep last 
-//  this.setVisible(true);
-  } 
+} 
 
 // Provided user clicks a returned result, will open directory of their selection
   public static void openDirectory(String selectedResult) 
